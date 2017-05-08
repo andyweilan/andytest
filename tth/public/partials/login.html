@@ -1,0 +1,36 @@
+<!--<div class="col-sm-8 col-sm-offset-4">
+	<img src="app/images/coder.png" alt="">
+</div>-->
+<div class="outForm col-sm-4 col-sm-offset-4">
+	<h3 class="welcome">用户登录</h3>
+	<div class="allForm">
+		<!--<p class="text-warning col-sm-offset-3">{{message}}</p>-->
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <!--<label for="inputEmail3" class="col-sm-3 control-label">用户名:</label>-->
+		    <div class="input-group">
+		      	<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+		      	<input type="text" class="form-control noLeft" id="inputEmail3" placeholder="用户名" ng-model="user.username" required="true">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <!--<label for="inputPassword3" class="col-sm-3 control-label">密码:</label>-->
+		    <div class="input-group">
+		      	<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+		      	<input type="password" class="form-control noLeft" id="inputPassword3" placeholder="密码" ng-model="user.password" required="true">
+		    </div>
+		  </div>
+		  <p class="text-warning"><span ng-bind="message"></span></p>
+		  <div class="form-group">
+		    <div class="">
+		      	<button type="submit" class="btn btn-primary btn-block" ng-click="login()">登录</button>
+		    </div>
+		  </div>
+		  <!--<div class="form-group">
+		    <div class="col-sm-offset-3 col-sm-6">
+		    	<a href="/auth/github" class="github" ng-click="loginWithGithub()"><img src="app/images/github_24.380952380952px_1181185_easyicon.net.png" alt=""> 通过github登录</a>
+		    </div>
+		  </div>-->
+		</form>
+	</div>
+</div>
