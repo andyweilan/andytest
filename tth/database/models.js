@@ -15,6 +15,10 @@ module.exports = {
         userEmail: {
             type: String
         },
+        role:{
+            type: Number,
+            default: 0
+        },
         sign: {
             type: String,
             default: '这家伙很懒，什么个性签名也没留下'
