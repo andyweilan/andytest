@@ -5,8 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+
 var index = require('./routes/index');
-//var users = require('./routes/users');
+var auth = require('./routes/auth');
 
 
 var mongoose = require('./database/mongodb-access');
@@ -17,13 +19,21 @@ global.OPER = new dbop();
 
 var app = express();
 
+app.use(session({ 
+    secret: 'secret',
+    cookie:{ 
+        maxAge: 1000*60*30
+    },
+    resave:false,
+    saveUninitialized:true
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile);
 app.set('view engine','html');
 
-var authController = require('./controllers/auth-controller.js');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -34,9 +44,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-//app.use('/users', users);
+app.use('/auth', auth);
 
-app.post('/auth/register', authController.register);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

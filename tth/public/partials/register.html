@@ -3,6 +3,8 @@
 </div>-->
 <div class="outForm col-sm-4 col-sm-offset-4">
 	<h3 class="welcome">用户注册</h3>
+	<span class="text-warning" ng-bind="message"></span>
+	<span class="text-warning" ng-bind="errorMsg"></span>
 	<div class="allForm">
 		<!--<p class="text-warning col-sm-offset-3">{{message}}</p>-->
 		<form class="form-horizontal" ng-submit="register()">
@@ -11,7 +13,6 @@
 		    <div class="input-group">
 		      <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 		      <input type="text" class="form-control noLeft" id="inputEmail3" placeholder="用户名" ng-model="user.username" required="true">
-		      <span class="text-warning" ng-bind="message"></span>
 		    </div>
 		  </div>
 
@@ -35,7 +36,6 @@
 		      <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 		      <input type="password" class="form-control noLeft" id="inputPassword3" placeholder="确认密码" ng-model="ensure">
 		    </div>
-		    <span class="text-warning" ng-bind="errorMsg"></span>
 		  </div>
 		  <!--<div class="form-group">
 		    <label for="inputPassword3" class="col-sm-3 control-label">选个头像呗:</label>
