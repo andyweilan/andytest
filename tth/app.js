@@ -9,6 +9,7 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
+var unread = require('./routes/unreadmsg');
 
 
 var mongoose = require('./database/mongodb-access');
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/unread', unread);
 
 
 

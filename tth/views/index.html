@@ -4,8 +4,10 @@
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel='stylesheet' type="text/css" href='/stylesheets/bootstrap.min.css'/>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 	<script src="/javascripts/angular/angular.min.js"></script>
 	<script src="/javascripts/angular/angular-route.js"></script>
+	<script src="/javascripts/socket.io/socket.io.js"></script>
 	<script src="/javascripts/smarttable/smart-table.min.js"></script>
 	<script src="/javascripts/app/tthapp.js"></script>
 	<script src="/javascripts/main/main.js"></script>
@@ -28,13 +30,14 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="#">首页</a></li>
+	        <li ng-show="authed"><a href="#/carestocks">关注</a></li>
 	        <li ng-hide="authed"><a href="#/register">注册</a></li>
 	        <li ng-hide="authed"><a href="#/login">登录</a></li>
-	        <li><a href="#">关于我们</a></li>
 	        <li ng-show="authed"><a href="#">当前:<span ng-bind="current_user"></span></a></li>
 	        <li ng-show="authed"><a href="#/unread?username={{current_user}}"><span ng-show="showCount" class="unreadCount">{{unreadCount}}</span>未读消息</a></li>
 	        <li ng-show="authed"><a href="#/modify">用户</a></li>
 	        <li ng-show="authed"><a href="#" ng-click="logout()">登出</a></li>
+	        <li><a href="#">关于我们</a></li>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	</div>
@@ -42,6 +45,12 @@
 <body>
 	<div class="container">
 		<div ng-view></div>
+	</div>
+	<div class="bottom">
+		<div class="container">
+			<br>
+			<p class="bottomP">欢迎来到天天红股票讨论社区。</p>
+		</div>
 	</div>
 </body>
 </html>

@@ -50,7 +50,7 @@ module.exports.register = function(req, res) {
 
 module.exports.login = function(req, res) {
 
-  var uname = req.body.username; //获取post上来的 data数据中 uname的值
+  var uname = req.body.username; //获取post上来的 data数据中 user name 的值
 
   global.OPER.findUser(uname, function(err, user) { //通过此model以用户名的条件 查询数据库中的匹配信息
     if (err) {

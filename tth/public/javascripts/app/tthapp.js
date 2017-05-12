@@ -34,6 +34,9 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/login', {
 		templateUrl: 'partials/login.html',
 		controller: 'loginCtrl'
+	}).when('/carestocks', {
+		templateUrl: 'partials/carestocks.html',
+		controller: 'careStocksCtrl'
 	}).when('/postTopic', {
 		templateUrl: 'app/postTopic/postTopic.html',
 		controller: 'postTopicCtrl'

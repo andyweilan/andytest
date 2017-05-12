@@ -22,7 +22,7 @@ angular.module('tthApp').controller('loginCtrl', function($scope, $http, $rootSc
 
 				var data = res.data;
 
-				alert(data.state);
+				//alert(data.state);
 
 				if (data.state == "success") {
 
@@ -33,35 +33,32 @@ angular.module('tthApp').controller('loginCtrl', function($scope, $http, $rootSc
 					$rootScope.showImage = true;
 
 
-					// var postdata = {
-					// 	username: $scope.user.username
-					// }
+					var postdata = {
+						username: $scope.user.username
+					}
 
-					// $http.post('/unread', postdata).then(function onSuccess(res2) {
-					// 	var data2 = res2.data;
+					$http.post('/unread/list', postdata).then(function onSuccess(res2) {
+						var data2 = res2.data;
 
-					// 	if (data2.state == 'success') {
-					// 		var realCount = 0;
-					// 		for (var i = 0; i < data2.unread.length; i++) {
-					// 			if (!data2.unread[i].asure) {
-					// 				realCount++;
-					// 			}
-					// 		}
-					// 		$rootScope.unreadCount = realCount;
-					// 		data.user.unreadLength = realCount;
-					// 		localStorage.setItem('User-Data', JSON.stringify(data.user));
-					// 		$location.path('/');
-					// 	}
+						if (data2.state == 'success') {
+							var realCount = 0;
+							for (var i = 0; i < data2.unread.length; i++) {
+								if (!data2.unread[i].asure) {
+									realCount++;
+								}
+							}
 
-					// }).catch(function onError(res) {
-					// 	$scope.errorMsg = "获取未读失败";
-					// 	$location.path('/');
-					// 	return;
-					// });
+							$rootScope.unreadCount = realCount;
+							data.user.unreadLength = realCount;
+							localStorage.setItem('User-Data', JSON.stringify(data.user));
+							$location.path('/');
+						}
 
-					localStorage.setItem('User-Data', JSON.stringify(data.user));
-
-					$location.path('/');
+					}).catch(function onError(res) {
+						$scope.message = "获取未读信息失败";
+						$location.path('/');
+						return;
+					});
 
 				} else {
 
@@ -71,7 +68,7 @@ angular.module('tthApp').controller('loginCtrl', function($scope, $http, $rootSc
 
 			}).catch(function onError(res) {
 
-				$scope.errorMsg = "登录失败";
+				$scope.message = "登录失败";
 				return;
 
 			});
