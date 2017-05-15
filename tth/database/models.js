@@ -81,5 +81,52 @@ module.exports = {
             type: Date,
             default: Date.now
         }
+    },
+    favorstocks:{
+        username: {
+            type: String,
+            required: true
+        },
+        stocks:[{
+            stockcode:String,
+            ex:String
+
+        }]
+
+    },
+    stock: {
+        code: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        nameJP: {
+            type: String,
+            required: false
+        },
+        ex: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: String,
+            required: false
+        },
+        sector: {
+            type: String,
+            required: false
+        },
+        equity: {
+            type: Number,
+            required: false
+        },
+        flowEq: {
+            type: Number,
+            required: false
+        }
+
     }
 };

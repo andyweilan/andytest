@@ -1,4 +1,5 @@
 var app = angular.module('tthApp', ['ngRoute', 'smart-table']).run(function($rootScope, $http) {
+
 	$rootScope.authed = false;
 	$rootScope.current_user = "";
 	$rootScope.current_user_sign = "这家伙很懒，什么个性签名也没留下";
@@ -6,6 +7,8 @@ var app = angular.module('tthApp', ['ngRoute', 'smart-table']).run(function($roo
 	$rootScope.showImage = false;
 	$rootScope.unreadCount = 0;
 	$rootScope.showCount = false;
+
+	
 	$rootScope.logout = function() {
 		localStorage.clear();
 		$rootScope.authed = false;

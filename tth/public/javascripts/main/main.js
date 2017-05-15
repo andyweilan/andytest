@@ -13,6 +13,15 @@ var app = angular.module('tthApp').controller('mainCtrl', function($scope, $http
         ////console.log($scope.user.imageUrl);
     }
 
+    // $rootScope.visible = true;
+
+
+    // $rootScope.getStockList = function() {
+    //     alert("getStockList");
+    //     socket.emit("get_stocklist", $rootScope.current_user);
+    // };
+
+/*
     var
         nameList = ['Pierre', 'Pol', 'Jacques', 'Robert', 'Elisa'],
         familyName = ['Dupont', 'Germain', 'Delcourt', 'bjip', 'Menez'];
@@ -39,5 +48,5 @@ var app = angular.module('tthApp').controller('mainCtrl', function($scope, $http
     $scope.rowCollection = [];
     for (var j = 0; j < 200; j++) {
         $scope.rowCollection.push(createRandomItem());
-    }
+    }*/
 });

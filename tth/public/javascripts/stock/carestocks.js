@@ -1,24 +1,116 @@
 "use strict";
 
-var host = 'localhost';//'10.86.18.201';//localhost
+var host = 'localhost'; //'10.86.18.201';
 var port = 3000;
 
-var socket = io.connect('http://'+host+':'+port);
+var socket = io.connect('http://' + host + ':' + port);
 
-angular.module('tthApp').controller('careStockCtrl', function($scope, $http, $rootScope, $location,$compile,$route) {
+/*
+angular.module('tthApp').directive('compile', function($compile) {
 
-  if (localStorage['User-Data'] !== undefined) {
-    $location.path('/');
+  return function(scope, element, attrs) {
+    scope.$watch(
+      function(scope) {
+        return scope.$eval(attrs.compile);
+      },
+      function(value) {
+        element.html(value);
+        $compile(element.contents())(scope);
+      }
+    );
+  };
+});
+*/
+
+angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $rootScope, $location, $compile, $route) {
+
+  if (localStorage['User-Data'] == undefined) {
+    $location.path('/login');
     return;
   }
+
+  $scope.user = JSON.parse(localStorage['User-Data']);
+
+  $scope.dyhtml = '';
 
 
   socket.on('hello', function() {
 
-    socket.emit('start_stock');
+    socket.emit('start_stock', $scope.user.username);
 
   });
 
+
+  $rootScope.idChanging = function(val) {
+
+    if (!val) return;
+
+    var postdata = {
+      "code": val
+    };
+
+
+    $http.post('/api/stocklist', postdata).then(function onSuccess(res) {
+
+      //alert('success');
+
+      var data = res.data;
+
+      if (data.state == "success") {
+
+        var stlist = "";
+
+        for (var i = 0; i < data.list.length; ++i) {
+
+          var code = data.list[i].code;
+
+          var name = data.list[i].name;
+
+          var li = '<li style="cursor:pointer;TEXT-DECORATION: underline;" id="stockslist" sid=' + code + ' ng-click="selectid(' + code + ')" >' + code + '  ' + name + '</li>';
+
+          stlist += li;
+
+        }
+
+        if (stlist) {
+          stlist = "<ul>" + stlist + "</ul>";
+          //alert(stlist);
+
+          var $html = $compile(stlist)($scope);
+
+          $('#search_auto').html($html).css('display', 'block');
+
+        } else {
+          
+          $('#search_auto').html('').css('display', 'none');
+        }
+
+      }
+
+
+    }).catch(function onError(res) {
+
+      alert('fail');
+
+    });
+
+
+  };
+
+  $rootScope.overAuto = function() {
+    //alert("in");
+    //$('#search').attr('rel', 2);
+
+  };
+
+  $rootScope.leaveAuto = function() {
+    //alert("out");
+    //$('#search').attr('rel', 1);
+
+  };
+
+});
+/*
   socket.on('private_stock', function(data) {
 
     $scope.rowCollection = data.stocks;
@@ -173,7 +265,7 @@ angular.module('tthApp').controller('careStockCtrl', function($scope, $http, $ro
   };
 
 
-}]);
+}]);*/
 
 
 var getStockID = function(val) {

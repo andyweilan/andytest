@@ -10,6 +10,7 @@ var session = require('express-session');
 var index = require('./routes/index');
 var auth = require('./routes/auth');
 var unread = require('./routes/unreadmsg');
+var api = require('./routes/api');
 
 
 var mongoose = require('./database/mongodb-access');
@@ -21,9 +22,9 @@ global.OPER = new dbop();
 var app = express();
 
 app.use(session({ 
-    secret: 'secret',
+    secret: 'secret.andy',
     cookie:{ 
-        maxAge: 1000*60*30
+        maxAge: 1000*60
     },
     resave:false,
     saveUninitialized:true
@@ -47,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/unread', unread);
+app.use('/api', api);
 
 
 

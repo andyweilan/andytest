@@ -1,7 +1,7 @@
 <div id="search" rel="0">
     <form name='myForm'>
         <label>增加股票: <input type="text" name="input" ng-model="addstock.text"
-           ng-pattern="addstock.pattern" required ng-trim="true" placeholder="股票代码" ng-keyup="$event.keyCode == 13 ? addItem(addstock.text) : null"  autocomplete="off" ng-change="idChanging(addstock.text)" id="id_input" ng-blur="lostAuto()">
+           ng-pattern="addstock.pattern" required ng-trim="true" placeholder="股票代码" ng-keyup="$event.keyCode == 13 ? addItem(addstock.text) : null"  autocomplete="off" ng-change="idChanging(addstock.text)" ng-id="id_input" ng-blur="lostAuto()">
         </label>
         <span ng-show="myForm.input.$error.pattern" style="color:red">请输入有效代码</span>
     </form>
@@ -20,10 +20,10 @@
             <th>当前价格</th>
             <th st-sort="priceDif">涨跌</th>
             <th st-sort="pricePercent">涨跌比</th>
+            <th>开盘价</th>
             <th>昨日收盘价</th>
       
-            <th>当前价格时间</th>
-            <th>开盘价</th>
+            <th>价格时间</th>
             <th>操作</th>
             <th>查看</th>
         </tr>
@@ -35,9 +35,9 @@
             <td ng-class='{red : row.changeColor==1, black: row.changeColor==0, green: row.changeColor==-1}'>{{row.stockPrice}}</td>
             <td ng-class='{red : row.changeColor==1, black: row.changeColor==0, green: row.changeColor==-1}'>{{row.priceDif}}</td>
             <td ng-class='{red : row.changeColor==1, black: row.changeColor==0, green: row.changeColor==-1}'>{{row.pricePercent}}</td>
+            <td>{{row.priceOpen}}</td>
             <td>{{row.priceYesterday}}</td>
             <td>{{row.priceTime}}</td>
-            <td>{{row.priceOpen}}</td>
             <td class="action-column">
                 <button type="button" class="btn-info btn-sm" data-toggle="modal" data-target="#delete" ng-click="remove(row)">删除</button>
             </td>

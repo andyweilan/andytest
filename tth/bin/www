@@ -33,7 +33,7 @@ var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
 });
 
-require('../module/socket').listen(server);
+require('../module/Socket').listen(server);
 
 /**
  * Normalize a port into a number, string, or false.

@@ -9,3 +9,34 @@
 .navbar-default .navbar-nav > li > a {
   	color: #fff;
 }
+
+.red {
+    color: red; 
+}
+
+.black {
+    color: black;
+}
+
+.green {
+    color: green;
+}
+
+#search_auto{
+	border:1px solid #817FB2;
+    position:absolute;
+    display:none;
+    width: 180px;
+}
+
+#search_auto ul{
+	margin:0px;
+	padding:0px 0px 0px 20px;
+	background:#FFF;
+}
+
+#search_auto li{
+	background:#FFF; 
+	text-align:left;
+	list-style-type:none;
+}
