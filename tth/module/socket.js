@@ -3,6 +3,15 @@ var io = require('socket.io')();
 var StocksSZ = require('./StocksSZ');
 var StocksSH = require('./StocksSH');
 
+var RealTimeMananger = require('./RealTimeManager');
+
+var RTMan = new RealTimeMananger();
+
+
+var stockController = require('../controllers/stock-controller.js');
+
+
+
 
 io.sockets.on('connection', function(socket) {
 
@@ -12,15 +21,16 @@ io.sockets.on('connection', function(socket) {
 
 	console.log('New connection from ' + clientIp);
 
-
+	//start_stock
 	socket.on('start_stock', function(username) {
 
 		console.log('uname:' + username);
 
-		global.OPER.findFavoriteStocks(username, function(err, doc) {
+		stockController.findFavoriteStocks(username, function(err, doc) {
 
 			if (err) {
-				//res.sendStatus(500);
+
+				console.log("error while findFavoriteStocks");
 			} else if (doc) {
 
 				console.log("favor stocks:" + doc.stocks.length);
@@ -34,43 +44,76 @@ io.sockets.on('connection', function(socket) {
 	});
 
 
-
+	//get_stocklist
 	socket.on('get_stocklist', function(username) {
 
-			console.log("get list");
+		console.log("get list");
 
-			global.OPER.delAllStocks();
+		stockController.delAllStocks();
 
-			//sz stocks
-			var stSZ = new StocksSZ();
+		//sz stocks
+		var stSZ = new StocksSZ();
 
-			stSZ.start(function(ret) {
+		stSZ.start(function(ret) {
 
-				//console.log("message to front end");
+			//console.log("message to front end");
 
-				if (ret == 0) {
-					socket.emit('err_message', '获取深圳股票成功了!');
-				} else {
-					socket.emit('err_message', '获取深圳股票出错了!');
+			if (ret == 0) {
+				socket.emit('err_message', '获取深圳股票成功了!');
+			} else {
+				socket.emit('err_message', '获取深圳股票出错了!');
 
-				}
+			}
 
-			});
+		});
 
-			///*
-			var stSH = new StocksSH();
-			stSH.start(function(ret) {
-			  //console.log('message to front end');
+		///*
+		var stSH = new StocksSH();
+		stSH.start(function(ret) {
+			//console.log('message to front end');
 
-			  if (ret == 0) {
-			    socket.emit('err_message', '获取上证股票成功了!');
-			  } else {
-			    socket.emit('err_message', '获取上证股票出错了!');
+			if (ret == 0) {
+				socket.emit('err_message', '获取上证股票成功了!');
+			} else {
+				socket.emit('err_message', '获取上证股票出错了!');
 
-			  }
+			}
 
-			});
-			//*/
+		});
+		//*/
+
+	});
+
+	//add_stock
+	socket.on('add_stock', function(stockcode, username) {
+
+		stockController.findStock(stockcode, function(err, stock) {
+
+			if (stock) {
+
+				console.log("found st");
+
+				stockController.addFavoriteStock(username, stock.code, stock.ex, function(err, doc) {
+
+					if (doc) {
+						console.log("success to add:" + stock.code);
+					}
+
+				});
+
+				//if (realTimeArray[realtimeKey]) {
+
+				//	realTimeArray[realtimeKey].addStock(doc.ex + stockcode);
+				//}
+
+
+			} else {
+
+				socket.emit('err_message', "添加失败，不是有效的股票代码！");
+
+			}
+
+		});
 
 	});
 

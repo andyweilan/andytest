@@ -63,7 +63,7 @@ RealTimeData.prototype.pollingLoop = function(socket) {
     }
 
 
-    self.updatePrivateSockets(socket, {
+    self.updatePrivateStocks(socket, {
       stocks: stocks
     });
 
@@ -182,12 +182,12 @@ RealTimeData.prototype.emptyAllStock = function() {
 };
 
 
-RealTimeData.prototype.updatePrivateSockets = function(socket, data) {
+RealTimeData.prototype.updatePrivateStocks = function(socket, data) {
   // 加上最新的更新时间
   data.time = new Date().toLocaleString();
 
   if (this.stockList) {
-    socket.emit('private_stock', data);
+    socket.emit('private_stocks', data);
   }
 
 };

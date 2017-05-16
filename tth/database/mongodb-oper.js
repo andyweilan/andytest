@@ -43,12 +43,100 @@ dboperator.prototype.createUser = function(uname, upwd, callback) {
 	});
 };
 
+dboperator.prototype.createFavoriteStock = function(uname, callback) {
+
+	FavorStocks.create({
+		username: uname
+	}, function(err, doc) {
+		callback.call(this, err, doc);
+	});
+
+};
+
 dboperator.prototype.findFavoriteStocks = function(uname, callback) {
 
 	FavorStocks.findOne({
 		username: uname
 	}, function(err, doc) {
 		callback.call(this, err, doc);
+	});
+
+};
+
+dboperator.prototype.addOneStock = function(user, stockcode, stockex, callback) {
+
+	var newStock = {
+		stockcode: stockcode,
+		ex: stockex
+
+	};
+
+	user.stocks.push(newStock);
+
+	user.save(function(err, doc) {
+
+		if (doc) {
+			console.log("add new stock success:" + stockcode);
+		}
+
+		callback.call(this, err, doc);
+
+	});
+
+};
+
+dboperator.prototype.addFavoriteStock = function(uname, stockcode, stockex, callback) {
+
+	var self = this;
+
+	FavorStocks.findOne({
+		username: uname
+	}, function(err, doc) {
+
+		if (err) {
+			callback.call(this, err, doc);
+		} else if (doc) {
+
+			console.log("FavorStocks:found user");
+
+			var exist = false;
+
+			for (var i = 0; i < doc.stocks.length; ++i) {
+
+				if (stockcode == doc.stocks[i].stockcode) {
+					exist = true;
+					break;
+				}
+
+			}
+
+			if (!exist) {
+
+				self.addOneStock(doc, stockcode, stockex, callback);
+
+			} else {
+
+				console.log("id already exists:" + stockcode);
+
+			}
+
+		} else {
+
+			self.createFavoriteStock(uname, function(err, doc) {
+
+				if (doc) {
+
+					console.log("FavorStocks:create user");
+
+					self.addOneStock(doc, stockcode, stockex, callback);
+				}else{
+
+					callback.call(this, err, doc);
+				}
+
+			});
+
+		}
 	});
 
 };
@@ -74,6 +162,18 @@ dboperator.prototype.findStocksList = function(id, num, callback) {
 		callback.call(this, err, docs);
 
 	}).limit(num);
+};
+
+dboperator.prototype.findStock = function(stockcode, callback) {
+
+	Stock.findOne({
+		code: stockcode
+	}, function(err, doc) {
+
+		callback.call(this, err, doc);
+
+	});
+
 };
 
 dboperator.prototype.delAllStocks = function() {

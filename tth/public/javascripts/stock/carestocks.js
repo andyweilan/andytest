@@ -31,8 +31,6 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
   $scope.user = JSON.parse(localStorage['User-Data']);
 
-  $scope.dyhtml = '';
-
 
   socket.on('hello', function() {
 
@@ -40,8 +38,13 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
   });
 
+  $scope.addstock = {
+    text: '',
+    pattern: /^[0-9]*$/
+  };
 
-  $rootScope.idChanging = function(val) {
+
+  $scope.idChanging = function(val) {
 
     if (!val) return;
 
@@ -81,7 +84,7 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
           $('#search_auto').html($html).css('display', 'block');
 
         } else {
-          
+
           $('#search_auto').html('').css('display', 'none');
         }
 
@@ -97,15 +100,31 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
   };
 
-  $rootScope.overAuto = function() {
+  $scope.overAuto = function() {
     //alert("in");
-    //$('#search').attr('rel', 2);
+    $('#search').attr('rel', 2);
 
   };
 
-  $rootScope.leaveAuto = function() {
+  $scope.leaveAuto = function() {
     //alert("out");
-    //$('#search').attr('rel', 1);
+    $('#search').attr('rel', 1);
+
+  };
+
+  $scope.selectid = function(val) {
+    //alert(val);
+
+    if (val && $scope.user.username) {
+      socket.emit("add_stock", val, $scope.user.username);
+    }
+
+    $('#search').attr('rel', 0);
+
+    $('#search_auto').html('').css('display', 'none');
+
+    $('#id_input').val('');
+    $scope.addstock.text = '';
 
   };
 

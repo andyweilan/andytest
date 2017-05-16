@@ -20,7 +20,7 @@ module.exports.stocklistlimit = function(req, res) {
 				list: '',
 				msg: 'not found'
 			});
-			
+
 		} else {
 			console.log(docs[0]);
 
@@ -31,5 +31,38 @@ module.exports.stocklistlimit = function(req, res) {
 		}
 	});
 
+}
 
-};
+module.exports.findFavoriteStocks = function(username, callback) {
+
+	global.OPER.findFavoriteStocks(username, function(err, doc) {
+
+		callback.call(this, err, doc);
+
+	});
+
+}
+
+module.exports.delAllStocks = function() {
+	global.OPER.delAllStocks();
+}
+
+module.exports.findStock = function(stockcode, callback) {
+
+	global.OPER.findStock(stockcode, function(err, doc) {
+
+		callback.call(this, err, doc);
+	});
+
+}
+
+module.exports.addFavoriteStock = function(username, stockcode, stockex, callback) {
+
+	global.OPER.addFavoriteStock(username, stockcode, stockex, function(err, doc) {
+
+		callback.call(this, err, doc);
+
+	});
+
+
+}
