@@ -11,7 +11,22 @@ var RTMan = new RealTimeMananger();
 var stockController = require('../controllers/stock-controller.js');
 
 
+var getStockList = function(stocks) {
 
+	var stList = "";
+
+	for (var i = 0; i < stocks.length; i++) {
+		if (stList) {
+			stList += ',';
+		}
+
+		stList += stocks[i].ex + stocks[i].stockcode;
+
+	}
+
+	return stList;
+
+};
 
 io.sockets.on('connection', function(socket) {
 
@@ -26,17 +41,32 @@ io.sockets.on('connection', function(socket) {
 
 		console.log('uname:' + username);
 
+		if (RTMan.find(username)) {
+
+			console.log("found");
+			RTMan.increase(username);
+			return;
+		}
+
 		stockController.findFavoriteStocks(username, function(err, doc) {
 
 			if (err) {
 
 				console.log("error while findFavoriteStocks");
+
 			} else if (doc) {
 
 				console.log("favor stocks:" + doc.stocks.length);
-				for (var i = 0; i < doc.stocks.length; i++) {
+
+				if (doc.stocks.length > 0) {
+
+					var stList = getStockList(doc.stocks);
+
+					RTMan.add(username, socket, stList);
+
 
 				}
+
 			}
 
 		});
@@ -114,6 +144,15 @@ io.sockets.on('connection', function(socket) {
 			}
 
 		});
+
+	});
+
+	socket.on('disconnect', function() {
+		
+
+		console.log('disconnect');
+
+		RTMan.remove(socket);
 
 	});
 

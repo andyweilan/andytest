@@ -22,12 +22,18 @@ angular.module('tthApp').directive('compile', function($compile) {
 });
 */
 
-angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $rootScope, $location, $compile, $route) {
+
+
+angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $location, $compile) {
 
   if (localStorage['User-Data'] == undefined) {
     $location.path('/login');
     return;
   }
+
+
+  $scope.rowCollection = [];
+
 
   $scope.user = JSON.parse(localStorage['User-Data']);
 
@@ -37,6 +43,29 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
     socket.emit('start_stock', $scope.user.username);
 
   });
+
+  socket.on('err_message', function(data) {
+
+    alert(data);
+
+  });
+
+  socket.on('private_stocks', function(data) {
+
+
+    $scope.rowCollection = data.stocks;
+
+    //alert(data.time);
+
+
+    $scope.$apply();
+
+
+    $('updatetime').html('最后更新时间:' + data.time);
+
+  });
+
+
 
   $scope.addstock = {
     text: '',
@@ -112,6 +141,18 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
   };
 
+  $scope.lostAuto = function() {
+    //alert($('#search').attr('rel'));
+
+    if ($('#search').attr('rel') != 2) {
+      $('#search_auto').css('display', 'none');
+
+      //$('#id_input').val('');
+      $scope.addstock.text = '';
+    }
+
+  };
+
   $scope.selectid = function(val) {
     //alert(val);
 
@@ -123,12 +164,14 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
     $('#search_auto').html('').css('display', 'none');
 
-    $('#id_input').val('');
+    //$('#id_input').val('');
     $scope.addstock.text = '';
 
   };
 
 });
+
+
 /*
   socket.on('private_stock', function(data) {
 
@@ -141,11 +184,6 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $r
 
   });
 
-  socket.on('err_message', function(data) {
-
-    alert(data);
-
-  });
 
 
   $scope.addItem = function(val) {

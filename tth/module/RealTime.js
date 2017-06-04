@@ -6,17 +6,19 @@ var POLLING_INTERVAL = 2000,
 var defaultStockList = "sh601857,sh601398,sz002080,sz300077,sz000651,sz002292,sz002841";
 
 
-var RealTimeData = function() {
+var RealTimeData = function(stList) {
 
-  this.stockList = defaultStockList;
+  this.stockList = stList;//defaultStockList;
 
-  this.counter = 0;
+  this.counter = 1;
 
 };
 
 RealTimeData.prototype.increaseCounter = function() {
 
   this.counter = this.counter + 1;
+
+  console.log("counter:"+this.counter);
 
 };
 
@@ -124,6 +126,7 @@ RealTimeData.prototype.getOneStock = function(data) {
 
   pricePercent = pricePercent.toFixed(2).toString() + "%";
 
+//console.log('price:'+price);
 
   return {
     stockCode: id,
@@ -169,13 +172,16 @@ RealTimeData.prototype.delStock = function(stockcode) {
   }
 };
 
-RealTimeData.prototype.emptyAllStock = function() {
+RealTimeData.prototype.decreaseCounter = function() {
 
   this.counter = this.counter - 1;
+  
   if (this.counter <= 0) {
 
     this.stockList = "";
   }
+
+  console.log("counter:"+this.counter);
 
   return this.counter;
 
@@ -187,6 +193,7 @@ RealTimeData.prototype.updatePrivateStocks = function(socket, data) {
   data.time = new Date().toLocaleString();
 
   if (this.stockList) {
+    //console.log('send:'+data.stocks);
     socket.emit('private_stocks', data);
   }
 
