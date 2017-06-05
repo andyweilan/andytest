@@ -156,7 +156,8 @@ dboperator.prototype.findStocksList = function(id, num, callback) {
 		code: new RegExp('^' + id)
 	}, {
 		code: 1,
-		name: 1
+		name: 1,
+		ex: 1
 	}, function(err, docs) {
 
 		callback.call(this, err, docs);

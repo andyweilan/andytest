@@ -3,9 +3,10 @@ var io = require('socket.io')();
 var StocksSZ = require('./StocksSZ');
 var StocksSH = require('./StocksSH');
 
-var RealTimeMananger = require('./RealTimeManager');
+var RealTimeData = require('./RealTime');
 
-var RTMan = new RealTimeMananger();
+var sleep = require('sleep');
+
 
 
 var stockController = require('../controllers/stock-controller.js');
@@ -41,13 +42,6 @@ io.sockets.on('connection', function(socket) {
 
 		console.log('uname:' + username);
 
-		if (RTMan.find(username)) {
-
-			console.log("found");
-			RTMan.increase(username);
-			return;
-		}
-
 		stockController.findFavoriteStocks(username, function(err, doc) {
 
 			if (err) {
@@ -62,7 +56,11 @@ io.sockets.on('connection', function(socket) {
 
 					var stList = getStockList(doc.stocks);
 
-					RTMan.add(username, socket, stList);
+					socket.emit('favor_stock_list', stList);
+
+					var realtimedata = new RealTimeData(stList);
+
+					realtimedata.pollingLoop(socket);
 
 
 				}
@@ -70,6 +68,17 @@ io.sockets.on('connection', function(socket) {
 			}
 
 		});
+
+	});
+
+	socket.on('stock_real_time', function(stList) {
+
+		sleep.sleep(2);
+
+		var realtimedata = new RealTimeData(stList);
+
+		realtimedata.pollingLoop(socket);
+
 
 	});
 
@@ -127,14 +136,11 @@ io.sockets.on('connection', function(socket) {
 
 					if (doc) {
 						console.log("success to add:" + stock.code);
+
+						socket.emit('favor_stock_list', stock.ex + stock.code);
 					}
 
 				});
-
-				//if (realTimeArray[realtimeKey]) {
-
-				//	realTimeArray[realtimeKey].addStock(doc.ex + stockcode);
-				//}
 
 
 			} else {
@@ -148,11 +154,9 @@ io.sockets.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
-		
+
 
 		console.log('disconnect');
-
-		RTMan.remove(socket);
 
 	});
 

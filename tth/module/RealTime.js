@@ -10,10 +10,11 @@ var RealTimeData = function(stList) {
 
   this.stockList = stList;//defaultStockList;
 
-  this.counter = 1;
+  //this.counter = 1;
 
 };
 
+/*
 RealTimeData.prototype.increaseCounter = function() {
 
   this.counter = this.counter + 1;
@@ -21,6 +22,7 @@ RealTimeData.prototype.increaseCounter = function() {
   console.log("counter:"+this.counter);
 
 };
+*/
 
 RealTimeData.prototype.pollingLoop = function(socket) {
 
@@ -32,7 +34,7 @@ RealTimeData.prototype.pollingLoop = function(socket) {
 
   var options = {
     url: "http://hq.sinajs.cn/list=" + self.stockList,
-    timeout: 6000,
+    timeout: 10000,
     encoding: "GBk",
     debug: false
 
@@ -69,9 +71,9 @@ RealTimeData.prototype.pollingLoop = function(socket) {
       stocks: stocks
     });
 
-    pollingTimer = setTimeout(function() {
-      self.pollingLoop(socket)
-    }, POLLING_INTERVAL);
+    //pollingTimer = setTimeout(function() {
+    //  self.pollingLoop(socket)
+    //}, POLLING_INTERVAL);
 
 
   });
@@ -172,6 +174,7 @@ RealTimeData.prototype.delStock = function(stockcode) {
   }
 };
 
+/*
 RealTimeData.prototype.decreaseCounter = function() {
 
   this.counter = this.counter - 1;
@@ -186,7 +189,7 @@ RealTimeData.prototype.decreaseCounter = function() {
   return this.counter;
 
 };
-
+*/
 
 RealTimeData.prototype.updatePrivateStocks = function(socket, data) {
   // 加上最新的更新时间
