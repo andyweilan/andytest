@@ -56,7 +56,7 @@ io.sockets.on('connection', function(socket) {
 
 					var stList = getStockList(doc.stocks);
 
-					socket.emit('favor_stock_list', stList);
+					socket.emit('init_list', stList);
 
 					var realtimedata = new RealTimeData(stList);
 
@@ -70,6 +70,7 @@ io.sockets.on('connection', function(socket) {
 		});
 
 	});
+
 
 	socket.on('stock_real_time', function(stList) {
 
@@ -137,7 +138,7 @@ io.sockets.on('connection', function(socket) {
 					if (doc) {
 						console.log("success to add:" + stock.code);
 
-						socket.emit('favor_stock_list', stock.ex + stock.code);
+						socket.emit('favor_stock_add', stock.ex + stock.code);
 					}
 
 				});
@@ -150,6 +151,39 @@ io.sockets.on('connection', function(socket) {
 			}
 
 		});
+
+	});
+
+	socket.on('remove_stock', function(stockcode, username) {
+
+		console.log("remove:" + stockcode);
+
+		stockController.findStock(stockcode, function(err, stock) {
+
+			if (stock) {
+
+				//console.log("found st");
+
+				stockController.removeFavoriteStock(username, stock.code, function(err) {
+
+					if (!err) {
+						console.log("success to remove:" + stock.code);
+
+						socket.emit('favor_stock_remove', stock.ex + stock.code);
+					}
+
+				});
+
+
+			} else {
+
+				socket.emit('err_message', "不是有效的股票代码！");
+
+			}
+
+		});
+
+
 
 	});
 

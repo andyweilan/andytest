@@ -64,5 +64,16 @@ module.exports.addFavoriteStock = function(username, stockcode, stockex, callbac
 
 	});
 
+}
+
+module.exports.removeFavoriteStock = function(username, stockcode, callback) {
+
+	global.OPER.removeFavoriteStock(username, stockcode, function(err) {
+
+		callback.call(this, err);
+
+	});
 
 }
+
+

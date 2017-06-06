@@ -52,7 +52,13 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
   });
 
-  socket.on('favor_stock_list', function(data) {
+  socket.on('init_list', function(data) {
+
+    $scope.favorStockList = data;
+
+  });
+
+  socket.on('favor_stock_add', function(data) {
 
     if ($scope.favorStockList) {
 
@@ -62,6 +68,19 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
       $scope.favorStockList = data;
     }
+
+  });
+
+  socket.on('favor_stock_remove', function(data) {
+
+    var list = $scope.favorStockList;
+
+    list = list.replace(',' + data, '');
+
+    list = list.replace(data, '');
+
+    $scope.favorStockList = list;
+
 
   });
 
@@ -182,6 +201,18 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
     //$('#id_input').val('');
     $scope.addstock.text = '';
+
+  };
+
+  $scope.remove = function(row) {
+
+    var result = confirm('确定要删除:' + row.stockCode + '?');
+
+    if (result) {
+
+      socket.emit("remove_stock", row.stockCode, $scope.user.username);
+
+    }
 
   };
 

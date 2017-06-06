@@ -85,6 +85,56 @@ dboperator.prototype.addOneStock = function(user, stockcode, stockex, callback) 
 
 };
 
+dboperator.prototype.removeFavoriteStock = function(uname, stockcode, callback) {
+
+	var self = this;
+
+	FavorStocks.findOne({
+		username: uname
+	}, function(err, doc) {
+
+		if (err) {
+			callback.call(this, err, doc);
+		} else if (doc) {
+
+			console.log("FavorStocks:found user");
+
+			var exist = false;
+
+			for (var i = 0; i < doc.stocks.length; ++i) {
+
+				if (stockcode == doc.stocks[i].stockcode) {
+					doc.stocks.splice(i, 1);
+
+					exist = true;
+					break;
+				}
+
+			}
+
+			if (exist) {
+
+				doc.save(function(err) {
+
+					if (err) {
+
+					} else {
+						console.log('save success');
+					}
+
+					callback.call(this, err);
+
+				});
+
+			} else {
+				callback.call(this, null);
+			}
+
+		}
+	});
+
+};
+
 dboperator.prototype.addFavoriteStock = function(uname, stockcode, stockex, callback) {
 
 	var self = this;
@@ -129,7 +179,7 @@ dboperator.prototype.addFavoriteStock = function(uname, stockcode, stockex, call
 					console.log("FavorStocks:create user");
 
 					self.addOneStock(doc, stockcode, stockex, callback);
-				}else{
+				} else {
 
 					callback.call(this, err, doc);
 				}
