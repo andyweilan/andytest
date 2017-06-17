@@ -10,6 +10,8 @@ var Stock = modelsCreate.getModel('stock');
 
 var DailyPrices = modelsCreate.getModel('dailyprices');
 
+var Finance = modelsCreate.getModel('finance');
+
 
 var dboperator = function() {
 
@@ -229,6 +231,19 @@ dboperator.prototype.findStock = function(stockcode, callback) {
 
 };
 
+dboperator.prototype.getStocks = function(callback) {
+
+	Stock.find({'$or':[{ex:'sh'},{ex:'sz'}]
+		//ex: exchange
+	}, {
+		code: 1
+	}, function(err, docs) {
+
+		callback.call(this, err, docs);
+
+	});
+};
+
 dboperator.prototype.delAllStocks = function() {
 
 	mongoose.connection.collections['stocks'].drop(function(err) {
@@ -249,6 +264,27 @@ dboperator.prototype.insertDailyPrices = function(prices, callback) {
 dboperator.prototype.findPrices = function(stockcode, callback) {
 
 	DailyPrices.find({
+		code: stockcode
+	}, {}, function(err, docs) {
+
+		callback.call(this, err, docs);
+	});
+
+};
+
+dboperator.prototype.insertStockFinance = function(financeData, callback) {
+
+	Finance.create(financeData, function(err, doc) {
+
+		callback.call(this, err, doc);
+
+	});
+
+};
+
+dboperator.prototype.findFinance = function(stockcode, callback) {
+
+	Finance.find({
 		code: stockcode
 	}, {}, function(err, docs) {
 

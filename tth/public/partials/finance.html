@@ -1,0 +1,53 @@
+<div>
+    <table>
+        <tr>
+            <stockcode></stockcode>
+            <stockname></stockname>
+        </tr> 
+    </table>
+    <table st-table="displayCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+            <tr>
+                <th st-sort-default="reverse" st-sort="date">日期</th>
+                <th>每股收益（元）</th>
+                <th>净利润（万元）</th>
+                <th>净利润同比（％）</th>
+                <th>扣非净利润（万元）</th>
+                <th>营业总收入（万元）</th>
+                <th>营业总收入同比（％）</th>
+                <th>每股净资产（元）</th>
+                <th>净资产收益率（％）</th>
+                <th>净资产收益率摊薄（％）</th>
+                <th>资产负债比（％）</th>
+                <th>每股资本公积金（元）</th>
+                <th>每股未分配利润（元）</th>
+                <th>每股现金流（元）</th>
+    </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in displayCollection">
+                <td>{{row.date|date}}</td>
+                <td>{{row.eps}}</td>
+                <td>{{row.netprofit}}</td>
+                <td>{{row.netprofitpercent}}</td>
+                <td>{{row.netprofitdeduction}}</td>
+                <td>{{row.grossrevenue}}</td>
+                <td>{{row.grossrevenuepercent}}</td>
+                <td>{{row.netassets}}</td>
+                <td>{{row.roe}}</td>
+                <td>{{row.dilutedroe}}</td>
+                <td>{{row.debttoassets}}</td>
+                <td>{{row.capitalreserve}}</td>
+                <td>{{row.retainedprofit}}</td>
+                <td>{{row.operatingcashflow}}</td>
+    </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="8"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

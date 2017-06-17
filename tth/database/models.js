@@ -166,5 +166,61 @@ module.exports = {
         adjclose: {
             type: Number
         }
+    },
+    finance: {
+        code: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: Date,
+            required: true
+        },
+        eps: {
+            type: Number
+        },
+        netprofit: {
+            type: Number
+        },
+        netprofitpercent: {
+            type: Number
+        },
+        netprofitdeduction: {
+            type: Number
+        },
+        grossrevenue: {
+            type: Number
+        },
+        grossrevenuepercent: {
+            type: Number
+        },
+        netassets: {
+            type: Number
+        },
+        roe: {
+            type: Number
+        },
+        dilutedroe: {
+            type: Number
+        },
+        debttoassets: {
+            type: Number
+        },
+        capitalreserve: {
+            type: Number
+        },
+        retainedprofit: {
+            type: Number
+        },
+        operatingcashflow: {
+            type: Number
+        },
+        grossmargin: {
+            type: Number
+        },
+        inventoryturnover: {
+            type: Number
+        }
+
     }
 };

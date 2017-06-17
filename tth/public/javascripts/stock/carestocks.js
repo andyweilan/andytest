@@ -236,4 +236,10 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
   };
 
+  $scope.viewFinance = function(row) {
+
+    window.open('#/finance/' + row.stockCode + '/' + row.stockName, '_blank');
+
+  };
+
 });

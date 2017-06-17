@@ -1,4 +1,5 @@
 var DailyPrices = require('../module/DailyPrices');
+var StockFinance = require('../module/StockFinance');
 
 module.exports.stocklistlimit = function(req, res) {
 
@@ -137,4 +138,55 @@ module.exports.stockhisprices = function(req, res) {
 		}
 
 	});
+}
+
+var getFinanceData = function(stockcode, res) {
+
+	var finance = new StockFinance(stockcode);
+
+	finance.start(function(ret, data) {
+		console.log("ret:" + ret);
+
+		if (ret == 0) {
+			console.log('get success and send');
+			return res.status(200).send({
+				state: 'success',
+				list: data
+			});
+
+		}
+
+	});
+};
+
+module.exports.stockfinance = function(req, res) {
+
+	var stockcode = req.body.code;
+
+	console.log('code:' + req.body.code);
+
+	global.OPER.findFinance(stockcode, function(err, docs) {
+
+		if (err) {
+			console.log("error to find");
+
+			res.sendStatus(500);
+		} else if (!docs || !docs[0]) {
+			console.log("not found");
+
+			getFinanceData(stockcode, res);
+
+
+		} else {
+			console.log(docs[0]);
+			// console.log(docs.length);
+
+			return res.status(200).send({
+				state: 'success',
+				list: docs
+			});
+		}
+	});
+
+
 }
