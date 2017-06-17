@@ -1,3 +1,5 @@
+var DailyPrices = require('../module/DailyPrices');
+
 module.exports.stocklistlimit = function(req, res) {
 
 	var code = req.body.code;
@@ -76,4 +78,63 @@ module.exports.removeFavoriteStock = function(username, stockcode, callback) {
 
 }
 
+var getPricesData = function(code, ex, res) {
 
+	var prices = new DailyPrices(code, ex);
+
+	prices.start(function(ret, data) {
+		console.log("ret:" + ret);
+
+		if (ret == 0) {
+			console.log('get success and send');
+			return res.status(200).send({
+				state: 'success',
+				list: data
+			});
+
+		}
+
+	});
+}
+
+module.exports.stockhisprices = function(req, res) {
+
+	var stockcode = req.body.code;
+
+	console.log('code:' + req.body.code);
+
+	global.OPER.findStock(stockcode, function(err, stock) {
+
+		if (stock) {
+
+			global.OPER.findPrices(stock.code, function(err, docs) {
+
+				if (err) {
+					console.log("error to find stock price");
+					res.sendStatus(500);
+
+				} else if (!docs || !docs[0]) {
+					console.log("not found and will get from remote");
+
+					getPricesData(stock.code, stock.ex, res);
+
+
+				} else {
+
+					console.log(docs[0]);
+					// console.log(docs.length);
+
+					return res.status(200).send({
+						state: 'success',
+						list: docs
+					});
+				}
+			});
+
+		} else {
+			console.log("not found:" + stockcode);
+			res.sendStatus(500);
+		}
+
+	});
+}

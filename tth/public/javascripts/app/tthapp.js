@@ -40,6 +40,9 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/carestocks', {
 		templateUrl: 'partials/carestocks.html',
 		controller: 'careStocksCtrl'
+	}).when('/hisprices/:id/:name',{
+		templateUrl: 'partials/hisprices.html',
+		controller: 'hisPricesCtrl'
 	}).when('/postTopic', {
 		templateUrl: 'app/postTopic/postTopic.html',
 		controller: 'postTopicCtrl'

@@ -8,4 +8,8 @@ router.route("/stocklist").get(function(req, res) {
 
 }).post(stockController.stocklistlimit);
 
+router.route("/hisprices").get(function(req, res) {
+
+}).post(stockController.stockhisprices);
+
 module.exports = router;

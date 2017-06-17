@@ -50,7 +50,7 @@ module.exports = {
         }
 
     },
-    topic:{
+    topic: {
         user: {
             type: String,
             required: true
@@ -82,14 +82,14 @@ module.exports = {
             default: Date.now
         }
     },
-    favorstocks:{
+    favorstocks: {
         username: {
             type: String,
             required: true
         },
-        stocks:[{
-            stockcode:String,
-            ex:String
+        stocks: [{
+            stockcode: String,
+            ex: String
 
         }]
 
@@ -128,5 +128,43 @@ module.exports = {
             required: false
         }
 
+    },
+    dailyprices: {
+        code: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: String,
+            required: true
+        },
+        open: {
+            type: Number
+        },
+        high: {
+            type: Number
+        },
+        low: {
+            type: Number
+        },
+        close: {
+            type: Number
+        },
+        quant: {
+            type: Number
+
+        },
+        volume: {
+            type: Number
+        },
+        turnover: {
+            type: Number
+        },
+        amplitude: {
+            type: Number
+        },
+        adjclose: {
+            type: Number
+        }
     }
 };

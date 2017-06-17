@@ -1,0 +1,43 @@
+<div>
+    <table>
+        <tr>
+            <stockcode></stockcode>
+            <stockname></stockname>
+        </tr> 
+    </table>
+    <table st-table="displayCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+            <tr>
+                <th st-sort-default="reverse" st-sort="date">日期</th>
+                <th>开盘（元）</th>
+                <th>最高（元）</th>
+                <th>最低（元）</th>
+                <th>收盘（元）</th>
+                <th>成交量（手）</th>
+                <th>成交金额（万元）</th>
+                <th>振幅(%)</th>
+                <th>换手率(%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in displayCollection">
+                <td>{{row.date|date}}</td>
+                <td>{{row.open}}</td>
+                <td>{{row.high}}</td>
+                <td>{{row.low}}</td>
+                <td>{{row.close}}</td>
+                <td>{{row.quant}}</td>
+                <td>{{row.volume|number}}</td>
+                <td>{{row.turnover}}</td>
+                <td>{{row.amplitude}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="8"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

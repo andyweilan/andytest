@@ -262,7 +262,7 @@ HttpProxy.prototype.handlerFailure = function(url, filename, callback) {
 
         this.retry = false;
 
-        sleep.sleep(1);
+        sleep.sleep(2);
 
         console.log('retry:' + url);
 

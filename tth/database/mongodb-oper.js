@@ -8,6 +8,8 @@ var FavorStocks = modelsCreate.getModel('favorstocks');
 
 var Stock = modelsCreate.getModel('stock');
 
+var DailyPrices = modelsCreate.getModel('dailyprices');
+
 
 var dboperator = function() {
 
@@ -231,6 +233,26 @@ dboperator.prototype.delAllStocks = function() {
 
 	mongoose.connection.collections['stocks'].drop(function(err) {
 		console.log('stocks collection dropped');
+	});
+
+};
+
+dboperator.prototype.insertDailyPrices = function(prices, callback) {
+
+	DailyPrices.create(prices, function(err, doc) {
+
+		callback.call(this, err, doc);
+	});
+
+};
+
+dboperator.prototype.findPrices = function(stockcode, callback) {
+
+	DailyPrices.find({
+		code: stockcode
+	}, {}, function(err, docs) {
+
+		callback.call(this, err, docs);
 	});
 
 };

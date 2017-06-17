@@ -24,11 +24,24 @@ angular.module('tthApp').directive('compile', function($compile) {
 
 
 
-angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $location, $compile) {
+angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $location, $compile, $rootScope) {
 
-  if (localStorage['User-Data'] == undefined) {
+  if (localStorage['User-Data'] !== undefined) {
+    $scope.user = JSON.parse(localStorage['User-Data']);
+    ////console.log($scope.user);
+    $rootScope.current_user = $scope.user.username;
+    $rootScope.current_user_sign = $scope.user.sign;
+    $rootScope.authed = true;
+    $rootScope.showImage = true;
+    $rootScope.user_image_url = $scope.user.imageUrl;
+    $rootScope.unreadCount = $scope.user.unreadLength;
+    $rootScope.showCount = $rootScope.unreadCount > 0 ? true : false;
+    ////console.log($scope.user.imageUrl);
+  } else {
+
     $location.path('/login');
     return;
+
   }
 
 
@@ -37,7 +50,7 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
   $scope.favorStockList = '';
 
 
-  $scope.user = JSON.parse(localStorage['User-Data']);
+  //$scope.user = JSON.parse(localStorage['User-Data']);
 
 
   socket.on('hello', function() {
@@ -213,6 +226,13 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
       socket.emit("remove_stock", row.stockCode, $scope.user.username);
 
     }
+
+  };
+
+  $scope.viewHisPrices = function(row) {
+
+    window.open('#/hisprices/' + row.stockCode + '/' + row.stockName, '_blank');
+    //$location.path('hisprices/' + row.stockCode + '/' + row.stockName);
 
   };
 
