@@ -127,6 +127,9 @@ io.sockets.on('connection', function(socket) {
 	//add_stock
 	socket.on('add_stock', function(stockcode, username) {
 
+		console.log('finding:'+stockcode);
+
+
 		stockController.findStock(stockcode, function(err, stock) {
 
 			if (stock) {

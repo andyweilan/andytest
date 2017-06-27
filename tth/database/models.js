@@ -137,8 +137,8 @@ module.exports = {
         date: {
             type: String,
             required: true
-        },
-        open: {
+        }, 
+        close: {
             type: Number
         },
         high: {
@@ -147,23 +147,29 @@ module.exports = {
         low: {
             type: Number
         },
-        close: {
+        open: {
+            type: Number
+        }, 
+        chg: {//涨跌额
             type: Number
         },
-        quant: {
+        pchg: {//涨跌比
             type: Number
-
-        },
-        volume: {
-            type: Number
-        },
+        }, 
         turnover: {
             type: Number
         },
-        amplitude: {
+        voturnover: {
             type: Number
         },
-        adjclose: {
+        vaturnover: {
+            type: Number
+        },
+        totalcap: {
+            type: Number
+
+        },
+        marketcap: {
             type: Number
         }
     },
