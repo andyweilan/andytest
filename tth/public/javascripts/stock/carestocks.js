@@ -3,7 +3,6 @@
 var host = 'localhost'; //'10.86.18.201';
 var port = 3000;
 
-var socket = io.connect('http://' + host + ':' + port);
 
 /*
 angular.module('tthApp').directive('compile', function($compile) {
@@ -44,6 +43,9 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
   }
 
+//alert("hello");
+
+var socket = io.connect('http://' + host + ':' + port);
 
   $scope.rowCollection = [];
 
@@ -146,7 +148,7 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
 
           var ex = data.list[i].ex;
 
-          var li = '<li style="cursor:pointer;TEXT-DECORATION: underline;" id="stockslist" sid=' + code + ' ng-click="selectid(' + code + ')" >' + ex + code + '  ' + name + '</li>';
+          var li = '<li style="cursor:pointer;TEXT-DECORATION: underline;" id="stockslist" sid=' + code + ' ng-click=selectid("'+code+'") >' + ex + code + '  ' + name + '</li>';
 
           stlist += li;
 
@@ -202,6 +204,7 @@ angular.module('tthApp').controller('careStocksCtrl', function($scope, $http, $l
   };
 
   $scope.selectid = function(val) {
+    
     //alert(val);
 
     if (val && $scope.user.username) {
