@@ -157,7 +157,7 @@ DailyPrices.prototype.getStartDate = function() {
 
 	var year = dt.getFullYear();
 
-	return (year - 10) + "0101";
+	return (year - 20) + "0101";
 };
 
 DailyPrices.prototype.getOptions = function(stockcode, stockex) {

@@ -16,6 +16,8 @@
                 <th>成交量（手）</th>
                 <th>成交金额（万元）</th>
                 <th>换手率(%)</th>
+                <th>总市值（亿元）</th>
+                <th>流通市值（亿元）</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +30,8 @@
                 <td>{{(row.voturnover/100).toFixed(0)|number}}</td>
                 <td>{{(row.vaturnover/10000).toFixed(0)|number}}</td>
                 <td>{{(row.turnover).toFixed(2)}}</td>
+                <td>{{(row.totalcap/100000000).toFixed(2)|number}}</td>
+                <td>{{(row.marketcap/100000000).toFixed(2)|number}}</td>
             </tr>
         </tbody>
         <tfoot>
